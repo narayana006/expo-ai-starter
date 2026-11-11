@@ -1,0 +1,7 @@
+{
+  "messages": [
+    { "role": "user", "content": "What can I cook with eggs and spinach?" },
+    { "role": "assistant", "content": "A spinach omelette is quick and needs nothing else." },
+    { "role": "user", "content": "How long does it take?" }
+  ]
+}
