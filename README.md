@@ -59,7 +59,7 @@ data: {"type":"done"}
 Then start the app in a second terminal:
 
 ```bash
-cp .env.example .env    # sets EXPO_PUBLIC_CHAT_API_URL
+cp env.example .env    # sets EXPO_PUBLIC_CHAT_API_URL
 npm start
 ```
 
