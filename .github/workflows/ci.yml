@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck (app and server)
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Tests
+        run: npm test -- --ci
+      - name: Proxy starts in mock mode and streams a reply
+        run: |
+          PORT=8787 node server/index.ts &
+          for i in $(seq 1 20); do curl -sf localhost:8787/healthz && break; sleep 0.5; done
+          curl -sfN -X POST localhost:8787/api/chat \
+            -H 'content-type: application/json' \
+            -d @examples/chat-request.json | tee reply.txt
+          grep -q '"type":"done"' reply.txt
